@@ -1,0 +1,49 @@
+{% extends 'userbase.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <span class="text-white">Contact Us</span>
+            <h1 class="text-capitalize mb-5 text-lg">Get in Touch</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<section class="section contact-info pb-0">
+    <div class="container">
+         <div class="row">
+            <div class="col-lg-4 col-sm-6 col-md-6">
+                <div class="contact-block mb-4 mb-lg-0">
+                    <i class="icofont-live-support"></i>
+                    <h5>Call Us</h5>
+                    <a href="tel:{{ page.mobilenumber }}" class="badge bg-primary text-white p-2">{{ page.mobilenumber }}</a>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-sm-6 col-md-6">
+                <div class="contact-block mb-4 mb-lg-0">
+                    <i class="icofont-support-faq"></i>
+                    <h5>Email Us</h5>
+                    <a href="mailto:{{ page.email }}" class="badge bg-success text-white p-2">{{ page.email }}</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-md-6">
+                <div class="contact-block mb-4 mb-lg-0">
+                    <i class="icofont-location-pin"></i>
+                    <h5>Location</h5>
+                    <a href="https://www.google.com/maps/search/?api=1&query={{ page.address|urlencode }}" 
+                       target="_blank" class="badge bg-danger text-white p-2">{{ page.address }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<br>
+{% endblock %}

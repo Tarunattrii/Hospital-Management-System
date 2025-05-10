@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="content container-fluid">
+
+    <div class="page-header">
+    <div class="row align-items-center">
+    <div class="col">
+    <h3 class="page-title">Search Patients</h3>
+    <ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'doctor_home' %}">Dashboard</a></li>
+    <li class="breadcrumb-item active">Search Patients</li>
+    </ul>
+    </div>
+    
+    </div>
+    </div>
+    
+    <div class="row">
+    <div class="col-sm-12">
+        <div class="card-block">
+            <h4 class="sub-title">Search Patients</h4>
+            <form  method="GET">
+                
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Search(By Fullname/Mobile Number)</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="query" name="query" class="form-control" required="">
+                    </div>
+                </div>
+               
+             
+                <button type="submit" class="btn btn-primary btn-user btn-block">Search</button>    
+                        </form>
+                    
+                        </div>
+    <div class="card card-table">
+    <div class="card-body">
+        {% if messages %}
+        {% for message in messages %}
+         {% if message.tags == 'error' %}
+       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{message}}
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+         </button>
+          </div>
+       {% endif %}
+        {% endfor %}
+       {% endif %}
+           {% if messages %}
+        {% for message in messages %}
+         {% if message.tags == 'info' %}
+       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{message}}
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+         </button>
+          </div>
+       {% endif %}
+        {% endfor %}
+       {% endif %}
+    <div class="table-responsive">
+    <table class="table table-hover table-center mb-0 datatable">
+    <thead>
+        {% if searchpat %}
+    <tr>
+        <th>S.No</th>
+    <th>Patient Name</th>
+    <th>Patient Contact Number</th>
+    <th>Patient Gender</th>
+    <th>Creation Date</th>
+    <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for i in searchpat %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+    <td>{{i.name}}</td>
+    <td>{{i.mobilenumber}}</td>
+    <td>{{i.gender}}</td>
+    <td>{{i.regdate_at}}</td>
+   
+    <td>
+   
+    <a href="{% url 'viewpatient' i.id %}" class="btn btn-primary">
+    Edit
+    </a> <a href="{% url 'viewcheckpatient' i.id %}" class="btn btn-primary">
+       View Details
+        </a>
+  
+    
+    </td>
+    </tr> {% endfor %}
+    {% else %}
+    {% if query %}
+    <p style="font-size: 20px;color: blue;text-align: center;">No records found for: "{{ query }}"</p>
+
+{% endif %}
+   
+    {% endif %}
+    </tbody>
+    </table>
+    
+
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,169 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4">Bed Vacancy Dashboard</h1>
+    
+    <!-- Summary Cards Row -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Beds</h5>
+                    <h2 class="mb-0">{{ total_beds }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Available Beds</h5>
+                    <h2 class="mb-0">{{ vacant_beds }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger text-white">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Occupied Beds</h5>
+                    <h2 class="mb-0">{{ occupied_beds }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Occupancy Rate</h5>
+                    <h2 class="mb-0">{{ occupancy_rate }}%</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Filter Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Filter Options</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="ward-filter">Ward</label>
+                        <select id="ward-filter" class="form-control">
+                            <option value="all">All Wards</option>
+                            {% for ward_info in wards %}
+                            <option value="{{ ward_info.ward.id }}">{{ ward_info.ward.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="bed-type-filter">Bed Type</label>
+                        <select id="bed-type-filter" class="form-control">
+                            <option value="all">All Types</option>
+                            {% for bed_type in bed_types %}
+                            <option value="{{ bed_type.id }}">{{ bed_type.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="status-filter">Status</label>
+                        <select id="status-filter" class="form-control">
+                            <option value="all">All Status</option>
+                            <option value="available">Available</option>
+                            <option value="occupied">Occupied</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Beds by Ward -->
+    {% for ward_info in wards %}
+    <div class="card mb-4 ward-card" data-ward-id="{{ ward_info.ward.id }}">
+        <div class="card-header bg-primary text-white">
+            <h5>{{ ward_info.ward.name }} - {{ ward_info.vacant_count }} Available</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% for bed in ward_info.beds %}
+                <div class="col-md-3 mb-3 bed-card" 
+                     data-bed-type="{{ bed.bed_type.id }}" 
+                     data-bed-status="{% if bed.is_occupied %}occupied{% else %}available{% endif %}">
+                    <div class="card {% if bed.is_occupied %}bg-danger{% else %}bg-success{% endif %} text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ bed.bed_number }}</h5>
+                            <p>Type: {{ bed.bed_type.name }}</p>
+                            <p>Status: {% if bed.is_occupied %}Occupied{% else %}Available{% endif %}</p>
+                            <a href="{% url 'toggle_bed_status' bed.id %}" class="btn btn-sm btn-light">
+                                {% if bed.is_occupied %}Mark Available{% else %}Mark Occupied{% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get filter elements
+        const wardFilter = document.getElementById('ward-filter');
+        const bedTypeFilter = document.getElementById('bed-type-filter');
+        const statusFilter = document.getElementById('status-filter');
+
+        // Get all ward and bed cards
+        const wardCards = document.querySelectorAll('.ward-card');
+        const bedCards = document.querySelectorAll('.bed-card');
+
+        function applyFilters() {
+            const wardValue = wardFilter.value;
+            const bedTypeValue = bedTypeFilter.value;
+            const statusValue = statusFilter.value;
+
+            // Process each ward
+            wardCards.forEach(wardCard => {
+                const wardId = wardCard.dataset.wardId;
+                let wardVisible = wardValue === 'all' || wardValue === wardId;
+                
+                if (wardVisible) {
+                    // Count how many beds are visible in this ward after bed-level filtering
+                    const bedsInWard = wardCard.querySelectorAll('.bed-card');
+                    let visibleBeds = 0;
+
+                    bedsInWard.forEach(bedCard => {
+                        const bedType = bedCard.dataset.bedType;
+                        const bedStatus = bedCard.dataset.bedStatus;
+                        
+                        const bedTypeMatch = bedTypeValue === 'all' || bedTypeValue === bedType;
+                        const statusMatch = statusValue === 'all' || statusValue === bedStatus;
+                        
+                        const visible = bedTypeMatch && statusMatch;
+                        bedCard.style.display = visible ? '' : 'none';
+                        
+                        if (visible) visibleBeds++;
+                    });
+                    
+                    // Only show ward if it has visible beds
+                    wardCard.style.display = visibleBeds > 0 ? '' : 'none';
+                } else {
+                    wardCard.style.display = 'none';
+                }
+            });
+        }
+
+        // Add event listeners to filters
+        wardFilter.addEventListener('change', applyFilters);
+        bedTypeFilter.addEventListener('change', applyFilters);
+        statusFilter.addEventListener('change', applyFilters);
+    });
+</script>
+{% endblock %}

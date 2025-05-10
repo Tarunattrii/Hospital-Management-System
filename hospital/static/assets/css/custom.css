@@ -1,0 +1,169 @@
+/* Custom CSS for Hospital Management System - HTSS Theme */
+
+:root {
+    --htss-primary: #1a3c8c;      /* Dark blue */
+    --htss-secondary: #62b5e5;    /* Light blue */
+    --htss-accent: #81d4fa;       /* Lighter blue accent */
+    --htss-info: #29b6f6;         /* Info blue */
+    --htss-success: #4caf50;      /* Success green */
+    --htss-warning: #ff9800;      /* Warning orange */
+    --htss-danger: #f44336;       /* Danger red */
+    --htss-light-bg: #f0f7fa;     /* Light blue background */
+    --htss-white: #ffffff;        /* White */
+    --htss-gray: #607d8b;         /* Neutral gray */
+}
+
+/* Global styles */
+body {
+    background-color: var(--htss-light-bg);
+    color: #444;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--htss-primary);
+}
+
+/* Card styling */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-header {
+    border-bottom: none;
+    padding: 1rem;
+}
+
+/* Summary card styling */
+.display-4 {
+    font-size: 2.5rem;
+}
+
+.text-info {
+    color: var(--htss-info) !important;
+}
+
+.text-success {
+    color: var(--htss-success) !important;
+}
+
+.text-warning {
+    color: var(--htss-warning) !important;
+}
+
+.text-danger {
+    color: var(--htss-danger) !important;
+}
+
+/* Badge styles */
+.badge.bg-success {
+    background-color: var(--htss-success) !important;
+}
+
+.badge.bg-danger {
+    background-color: var(--htss-danger) !important;
+}
+
+.badge.bg-warning {
+    background-color: var(--htss-warning) !important;
+}
+
+/* Table hover effects */
+.table {
+    color: #444;
+}
+
+.table thead {
+    background-color: rgba(26, 60, 140, 0.05);  /* Light blue header */
+}
+
+.table thead th {
+    color: var(--htss-primary);
+    font-weight: 600;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(98, 181, 229, 0.1); /* Light blue hover */
+    cursor: pointer;
+}
+
+/* Button styling */
+.btn-outline-info {
+    border-color: var(--htss-info);
+    color: var(--htss-info);
+}
+
+.btn-outline-info:hover {
+    background-color: var(--htss-info);
+    color: white;
+}
+
+.btn-primary {
+    background-color: var(--htss-primary);
+    border-color: var(--htss-primary);
+}
+
+.btn-primary:hover {
+    background-color: #112a69;
+    border-color: #112a69;
+}
+
+/* Background colors */
+.bg-primary {
+    background-color: var(--htss-primary) !important;
+}
+
+.bg-info {
+    background-color: var(--htss-secondary) !important;
+}
+
+.bg-opacity-25 {
+    opacity: 0.25;
+}
+
+/* Navbar active link */
+.navbar .nav-link.active {
+    color: var(--htss-info);
+    font-weight: 500;
+}
+
+/* Ward section styling */
+.card-header.bg-primary {
+    background-color: rgba(26, 60, 140, 0.15) !important;  /* Light primary */
+}
+
+.card-header.bg-info {
+    background-color: rgba(98, 181, 229, 0.15) !important; /* Light secondary */
+}
+
+.card-header.bg-danger {
+    background-color: rgba(244, 67, 54, 0.15) !important;  /* Light danger */
+}
+
+.card-header.bg-success {
+    background-color: rgba(76, 175, 80, 0.15) !important;  /* Light success */
+}
+
+.card-header.bg-warning {
+    background-color: rgba(255, 152, 0, 0.15) !important;  /* Light warning */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+}

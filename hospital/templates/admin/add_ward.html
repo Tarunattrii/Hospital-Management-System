@@ -1,0 +1,30 @@
+{% extends 'admin/base_site.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Add Ward</h3>
+            <div class="card-tools">
+                <a href="{% url 'ward_list' %}" class="btn btn-secondary btn-sm">
+                    <i class="fas fa-arrow-left"></i> Back to Wards
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="ward_name">Ward Name</label>
+                    <input type="text" name="ward_name" id="ward_name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

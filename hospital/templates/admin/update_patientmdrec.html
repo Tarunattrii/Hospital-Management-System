@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="content container-fluid">
+
+    <div class="page-header">
+    <div class="row align-items-center">
+    <div class="col">
+    <h3 class="page-title">Manage Patient Medical Record</h3>
+    <ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'doctor_home' %}">Dashboard</a></li>
+    <li class="breadcrumb-item active">View Patient Medical Record</li>
+    </ul>
+    </div>
+    
+    </div>
+    </div>
+    
+    <div class="row">
+    <div class="col-sm-12">
+    <div class="card card-table">
+    <div class="card-body">
+        {% if messages %}
+        {% for message in messages %}
+         {% if message.tags == 'error' %}
+       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{message}}
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+         </button>
+          </div>
+       {% endif %}
+        {% endfor %}
+       {% endif %}
+           {% if messages %}
+        {% for message in messages %}
+         {% if message.tags == 'success' %}
+       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{message}}
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+         </button>
+          </div>
+       {% endif %}
+        {% endfor %}
+       {% endif %}
+    <div class="table-responsive">
+    <table class="table table-hover table-center mb-0 datatable">
+      
+        <tr align="center">
+            <th colspan="8" >Patient Details</th> 
+           </tr>
+        <tr>
+            
+            <th>Patient Name</th>
+            <td>{{pd.name}}</td>
+            <th>Patient Contact Number</th>
+            <td>{{pd.mobilenumber}}</td>
+
+          </tr>
+          <tr>
+            
+            <th>Patient Address</th>
+            <td>{{pd.address}}</td>
+            <th>Patient Gender</th>
+            <td>{{pd.gender}}</td>
+          </tr>
+          <tr>
+            
+            <th>Patient Email</th>
+            <td>{{pd.email}}</td>
+            <th>Patient Age</th>
+            <td>{{pd.age}}</td>
+          </tr>
+          <tr>
+            
+         
+            <th>Medical History</th>
+            <td>{{pd.medicalhistory}}</td>
+          </tr>
+          <tr>
+              
+    </table>
+   
+    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+        <tr align="center">
+         <th colspan="8" >Medical History</th> 
+        </tr>
+        <tr>
+            {% if mrd %}
+          <th>#</th>
+      <th>Blood Pressure</th>
+      <th>Weight</th>
+      <th>Blood Sugar</th>
+      <th>Body Temprature</th>
+      <th>Medical Prescription</th>
+      <th>Visit Date</th>
+      </tr>
+      {% for i in mrd %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+       <td>{{i.bloodpressure}}</td>
+       <td>{{i.weight}}</td>
+       <td>{{i.bloodsugar}}</td> 
+        <td>{{i.bodytemp}}</td>
+        <td>{{i.prescription}}</td>
+        <td>{{i.visitingdate_at}}</td> 
+      </tr>
+      {% endfor %}
+      {% else %}
+      <tr>
+        <td><p>No Medical Record</p></td>
+      </tr>
+      
+      {% endif %}
+
+      </table>
+    
+    
+              </div>
+            
+              
+                          </div>
+              
+                        </div>
+    
+
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+{% endblock %}

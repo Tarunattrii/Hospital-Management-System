@@ -1,0 +1,164 @@
+{% extends '\templates\layout.html' %}
+
+{% block title %}Bed Vacancies - HTSS Hospital{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card mb-4 border-0 shadow">
+        <div class="card-body">
+            <h1 class="mb-4 text-center">
+                <i class="fas fa-bed me-2 text-info"></i>HTSS Hospital Bed Vacancies
+            </h1>
+            <p class="lead text-center" style="color: #1a3c8c;">
+                Current status of available beds across all hospital wards and facilities
+            </p>
+        </div>
+    </div>
+
+    <!-- Filters and Search -->
+    <div class="card mb-4 border-0 shadow">
+        <div class="card-body">
+            <h5 class="card-title mb-3"><i class="fas fa-filter me-2"></i>Filter Beds</h5>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label for="wardFilter" class="form-label">Ward</label>
+                    <select id="wardFilter" class="form-select">
+                        <option value="all" selected>All Wards</option>
+                        {% for ward_data in wards %}
+                        <option value="{{ ward_data.ward.name|lower|replace(' ', '-')|replace('(', '')|replace(')', '') }}">{{ ward_data.ward.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="statusFilter" class="form-label">Status</label>
+                    <select id="statusFilter" class="form-select">
+                        <option value="all" selected>All Status</option>
+                        <option value="available">Available</option>
+                        <option value="occupied">Occupied</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="bedTypeFilter" class="form-label">Bed Type</label>
+                    <select id="bedTypeFilter" class="form-select">
+                        <option value="all" selected>All Types</option>
+                        {% for bed_type in bed_types %}
+                        <option value="{{ bed_type.name|lower }}">{{ bed_type.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 shadow text-center h-100">
+                <div class="card-body">
+                    <h2 class="display-4 fw-bold text-info">{{ vacant_beds }}</h2>
+                    <p class="text-muted mb-0">Total Vacant Beds</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow text-center h-100">
+                <div class="card-body">
+                    <h2 class="display-4 fw-bold text-warning">{{ occupied_beds }}</h2>
+                    <p class="text-muted mb-0">Total Occupied Beds</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow text-center h-100">
+                <div class="card-body">
+                    <h2 class="display-4 fw-bold text-success">{{ total_beds }}</h2>
+                    <p class="text-muted mb-0">Total Beds</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow text-center h-100">
+                <div class="card-body">
+                    <h2 class="display-4 fw-bold text-danger">{{ occupancy_rate }}%</h2>
+                    <p class="text-muted mb-0">Occupancy Rate</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ward Sections -->
+    {% for ward_data in wards %}
+    {% set ward_name_slug = ward_data.ward.name|lower|replace(' ', '-')|replace('(', '')|replace(')', '') %}
+    {% set bg_colors = {
+        'general-ward': 'primary',
+        'private-rooms': 'info',
+        'intensive-care-unit-icu': 'danger',
+        'pediatric-ward': 'success',
+        'maternity-ward': 'warning'
+    } %}
+    {% set bg_color = bg_colors[ward_name_slug] if ward_name_slug in bg_colors else 'secondary' %}
+    {% set icons = {
+        'general-ward': 'procedures',
+        'private-rooms': 'door-closed',
+        'intensive-care-unit-icu': 'heartbeat',
+        'pediatric-ward': 'child',
+        'maternity-ward': 'baby'
+    } %}
+    {% set icon = icons[ward_name_slug] if ward_name_slug in icons else 'bed' %}
+    
+    <div class="card mb-4 border-0 shadow ward-section" data-ward="{{ ward_name_slug }}">
+        <div class="card-header bg-{{ bg_color }} bg-opacity-25">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">
+                    <i class="fas fa-{{ icon }} me-2"></i> {{ ward_data.ward.name }}
+                </h2>
+                <span class="badge {% if ward_data.vacant_count > 0 %}bg-success{% elif ward_data.vacant_count == 0 %}bg-danger{% else %}bg-warning{% endif %} px-3 py-2">{{ ward_data.vacant_count }} Available</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <p>{{ ward_data.ward.description }}</p>
+                </div>
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Bed Number</th>
+                                    <th>Bed Type</th>
+                                    <th>Status</th>
+                                    <th>Location</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for bed in ward_data.beds %}
+                                <tr class="bed-row" 
+                                    data-status="{% if not bed.is_occupied %}available{% else %}occupied{% endif %}" 
+                                    data-type="{{ bed.bed_type.name|lower }}">
+                                    <td>{{ bed.bed_number }}</td>
+                                    <td>{{ bed.bed_type.name }}</td>
+                                    <td>
+                                        <span class="badge {% if not bed.is_occupied %}bg-success{% else %}bg-danger{% endif %}">
+                                            {% if not bed.is_occupied %}Available{% else %}Occupied{% endif %}
+                                        </span>
+                                    </td>
+                                    <td>{{ ward_data.ward.name }}</td>
+                                    <td><button class="btn btn-sm btn-outline-info">View Details</button></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block additional_js %}
+<script src="{{ url_for('static', filename='js/admit.js') }}"></script>
+{% endblock %}

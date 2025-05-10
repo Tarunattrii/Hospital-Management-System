@@ -1,0 +1,130 @@
+{% load static %}
+{% if user.user_type == '1' %}
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+       <div id="sidebar-menu" class="sidebar-menu">
+          <ul>
+             <li class="menu-title">
+                <span>Main Menu</span>
+             </li>
+             
+             <li>
+               <a href="{% url 'admin_home' %}"><i class="fas fa-file"></i> <span>Dashboard</span></a>
+            </li>
+             <li class="submenu">
+               <a href="#"><i class="fas fa-file"></i> <span> Specialization</span> <span class="menu-arrow"></span></a>
+               <ul>
+                  <li><a href="{% url 'add_specilizations' %}">Add</a></li>
+                  <li><a href="{% url 'manage_specilizations' %}">Manage</a></li>
+               </ul>
+            </li>
+            <li class="submenu">
+               <a href="#"><i class="fas fa-user-md"></i> <span> Doctor Registration</span> <span class="menu-arrow"></span></a>
+               <ul>
+                  <li><a href="{% url 'docsignup' %}">Register Doctor</a></li>
+               </ul>
+            </li>
+            <li>
+               <a href="{% url 'viewdoctorlist' %}"><i class="fas fa-users"></i> <span>Doctor List</span></a>
+            </li>
+            <li>
+               <a href="{% url 'regusers' %}"><i class="fa fa-file"></i> <span>Reg Users</span></a>
+            </li>
+            <li>
+               <a href="{% url 'search_doctor' %}"><i class="fas fa-search"></i> <span>Search Doctor</span></a>
+            </li>
+            <li>
+               <a href="{% url 'doctor_between_date_report' %}"><i class="fa fa-file"></i> <span>Doctor Reg Report</span></a>
+            </li>
+          <!-- <li>
+               <a href="{% url 'bed_vacancy' %}"><i class=" fas fa-bed"></i> <span>Bed Vacancy</span></a>
+            </li>-->
+            <li>
+               <a href="{% url 'website_update' %}"><i class="fas fa-cog"></i> <span>Website Page</span></a>
+            </li>
+          </ul>
+       </div>
+    </div>
+ </div>
+ {% elif user.user_type == '2'  %}
+ 
+ <div class="sidebar" id="sidebar">
+   <div class="sidebar-inner slimscroll">
+      <div id="sidebar-menu" class="sidebar-menu">
+         <ul>
+            <li class="menu-title">
+               <span>Main Menu</span>
+            </li>
+            
+            <li>
+              <a href="{% url 'doctor_home' %}"><i class="fa fa-file"></i> <span>Dashboard</span></a>
+           </li>
+            <li class="submenu">
+               <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Appointment</span> <span class="menu-arrow"></span></a>
+               <ul>
+                 <li><a href="{% url 'patientnewappointment' %}">New Appointment</a></li>
+                  <li><a href="{% url 'patientapprovedappointment' %}">Approved Appointment</a></li>
+                  <li><a href="{% url 'patientcancelledappointment' %}">Cancelled Appointment</a></li>
+                  <li><a href="{% url 'view_appointment' %}">All Appointment</a></li>
+               </ul>
+            </li>
+            <li class="submenu">
+               <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Patient</span> <span class="menu-arrow"></span></a>
+               <ul>
+                 <li><a href="{% url 'add_patient' %}">Add Patient</a></li>
+                  <li><a href="{% url 'manage_patient' %}">Manage patient</a></li>
+               </ul>
+            </li>
+            <li class="submenu">
+               <a href="#"><i class="fas fa-search"></i> <span> Search</span> <span class="menu-arrow"></span></a>
+               <ul>
+                 <li><a href="{% url 'search_appointment' %}">Search Appointment</a></li>
+                  <li><a href="{% url 'search_patient' %}">Search Patient</a></li>
+               </ul>
+            </li>
+            <li class="submenu">
+               <a href="#"><i class="fas fa-file"></i> <span> Report</span> <span class="menu-arrow"></span></a>
+               <ul>
+                 <li><a href="{% url 'between_date_report' %}">Appointment Report</a></li>
+                  <li><a href="{% url 'between_date_patient_report' %}">Patient Report</a></li>
+               </ul>
+            </li>
+         </ul>
+      </div>
+   </div>
+</div>
+{% else  %}
+ <div class="sidebar" id="sidebar">
+   <div class="sidebar-inner slimscroll">
+      <div id="sidebar-menu" class="sidebar-menu">
+         <ul>
+            <li class="menu-title">
+               <span>Main Menu</span>
+            </li>
+            
+            <li>
+              <a href="{% url 'userhome' %}"><i class="fa fa-file"></i> <span>Dashboard</span></a>
+           </li>
+           <li>
+            <a href="{% url 'patientappointment' %}"><i class="fas fa-edit"></i> <span>Book Appointment</span></a>
+         </li>
+         <li>
+            <a href="{% url 'view_appointment_history' %}"><i class="fas fa-file"></i> <span>Appointment History</span></a>
+         </li>
+         </ul>
+      </div>
+   </div>
+</div>
+<style>
+   .sidebar-menu ul ul {
+       display: none;
+       list-style: none;
+       padding-left: 15px;
+   }
+   
+   .sidebar-menu ul ul.show {
+       display: block;
+   }
+   </style>
+   
+{% endif %}

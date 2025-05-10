@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="content container-fluid">
+    {% if user.user_type == '1' %}
+    <div class="page-header">
+    <div class="row">
+    <div class="col">
+    <h3 class="page-title">Update Patient</h3>
+    <ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Dashboard</a></li>
+    <li class="breadcrumb-item active">Update Patient</li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    {% else  %}
+    <div class="page-header">
+        <div class="row">
+        <div class="col">
+        <h3 class="page-title">Update Patient</h3>
+        <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'doctor_home' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Update Patient</li>
+        </ul>
+        </div>
+        </div>
+        </div>{% endif %}
+    
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="card">
+    <div class="card-header">
+    <h5 class="card-title">Update Patient</h5>
+    </div>
+    <div class="card-body">
+        {% if messages %}
+                        {% for message in messages %}
+                         {% if message.tags == 'error' %}
+                       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                      {{message}}
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                         </button>
+                          </div>
+                       {% endif %}
+                        {% endfor %}
+                       {% endif %}
+                           {% if messages %}
+                        {% for message in messages %}
+                         {% if message.tags == 'success' %}
+                       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                      {{message}}
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                         </button>
+                          </div>
+                       {% endif %}
+                        {% endfor %}
+                       {% endif %}
+                       <form method="POST" action="{% url 'editpatient' %}">
+                        {% csrf_token %}
+   
+    <div class="form-group row">
+    <label class="col-form-label col-md-2">Full Name</label>
+    <div class="col-md-10">
+        <input type="text" class="form-control" name="name" required="True" value="{{pd.name}}">
+        <input type="hidden" class="form-control" name="pid" id="pid" required="True" value="{{pd.id}}">
+    </div>
+    </div>
+    <div class="form-group row">
+    <label class="col-form-label col-md-2">Mobile Number</label>
+    <div class="col-md-10">
+        <input type="text" class="form-control" name="mobilenumber" maxlength="10" pattern="[0-9]+" required="True" value="{{pd.mobilenumber}}">
+    </div>
+    </div>
+    <div class="form-group row">
+    <label class="col-form-label col-md-2">Email</label>
+    <div class="col-md-10">
+        <input type="email" class="form-control" name="email" required="True" value="{{pd.email}}">
+    </div>
+    </div>
+    <div class="form-group row">
+    <label class="col-form-label col-md-2">Gender</label>
+    <div class="col-md-10">
+        <select id="gender" class="form-control" name="gender" required="true">
+            <option value="{{pd.gender}}">{{pd.gender}}</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+    </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-form-label col-md-2">Address</label>
+        <div class="col-md-10">
+            <textarea class="form-control" name="address"  required="True">{{pd.address}}</textarea>
+        </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-md-2">Age</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" name="age" required="True" value="{{pd.age}}">
+            </div>
+            </div>
+            <div class="form-group row">
+    <label class="col-form-label col-md-2">Medical History(if any)</label>
+    <div class="col-md-10">
+        <textarea class="form-control" name="medhistory">{{pd.medicalhistory}}</textarea>
+    </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-dark">Update</button>
+        </div>
+    </div>
+    
+    </form>
+    </div>
+    </div>
+
+    </div>
+    </div>
+    </div>
+
+
+
+{% endblock %}

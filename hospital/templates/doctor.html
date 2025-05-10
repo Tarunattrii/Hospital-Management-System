@@ -1,0 +1,89 @@
+{% extends 'userbase.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <h1 class="text-capitalize mb-5 text-lg">Specialized Doctors</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<section class="section doctors">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="section-title">
+                    <h2>Our Team</h2>
+                    <div class="divider mx-auto my-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-5">
+            <h2 class="text-center mb-4">Doctors</h2>
+            <div class="row d-flex flex-wrap justify-content-center">
+                
+                {% for doctor in dv %}
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="doctor-inner-box text-center">
+                        <div class="doctor-profile">
+                            <div class="doctor-img">
+                                {% if doctor.admin.profile_pic %}
+                                <img src="{{ doctor.admin.profile_pic.url }}" alt="{{ doctor.admin.first_name }}" class="img-fluid w-100 rounded">
+                                {% else %}
+                                <img src="{% static 'images/default-doctor.png' %}" alt="Default Doctor" class="img-fluid w-100 rounded">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="content mt-3">
+                            <h4 class="doctor-name">{{ doctor.admin.first_name }} {{ doctor.admin.last_name }}</h4>
+                            
+                            <!-- Specialization -->
+                            <p class="doctor-specialization">
+                                {% if doctor.specialization_id.sname %}
+                                    {{ doctor.specialization_id.sname }}
+                                {% else %}
+                                    Not Specified
+                                {% endif %}
+                            </p>
+
+                            <!-- Fetch and display timings from the database -->
+                            <p class="doctor-timings"><strong>Timings:</strong> {{ doctor.timings }}</p>  
+
+                            <!-- Fetch and display available days from the database -->
+                            <p class="doctor-days">
+                                <strong>Available Days:</strong> 
+                                {% with doctor.available_days.all as days %}
+                                    {% if days|length == 7 %}
+                                        Monday - Sunday
+                                    {% elif days|length == 6 and "Sunday" not in days|join:", " %}
+                                        Monday - Saturday
+                                    {% elif days|length == 5 and "Saturday" not in days|join:", " and "Sunday" not in days|join:", " %}
+                                        Monday - Friday
+                                    {% elif days %}
+                                        {% for day in days %}
+                                            {{ day.name }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        Not Available
+                                    {% endif %}
+                                {% endwith %}
+                            </p>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

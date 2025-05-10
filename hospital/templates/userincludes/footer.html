@@ -1,0 +1,99 @@
+{% load static %}
+<!-- Footer Start -->
+
+<footer class="footer section gray-bg">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 mr-auto col-sm-6">
+				<div class="widget mb-5 mb-lg-0">
+					<div class="logo mb-4">
+						<h3>Hospital Management System</h3>
+</div>
+<p>
+	<div class="about-section">
+		
+		<p>
+			Hospital Management System |<br> 
+			A Software Project Management (SPM) initiative by a team of 
+			four engineering students to streamline healthcare operations.
+		</p>
+		<p>
+			<strong>Developed by:<br></strong> Sachin Yadav, Harshit Pathak,<br> Saiyam Jain,
+			Tarun Attri <br> B.M. Institute Of Engineering and Technology<br>
+			Affiliated to GGSIP University
+		</p>
+	</div>
+	
+
+					
+
+					<ul class="list-inline footer-socials mt-4">
+						<li class="list-inline-item"><a href="https://github.com/Tarunattrii"><i class="icofont-github"></i></a></li>
+						<li class="list-inline-item"><a href="https://github.com/Tarunattrii"><i class="icofont-github"></i></a></li>
+						<li class="list-inline-item"><a href="https://github.com/Tarunattrii"><i class="icofont-github"></i></a></li>
+						<li class="list-inline-item"><a href="https://github.com/Tarunattrii"><i class="icofont-github"></i></a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-lg-2 col-md-6 col-sm-6">
+				<div class="widget mb-5 mb-lg-0">
+					<h4 class="text-capitalize mb-3">Quick Link</h4>
+					<div class="divider mb-4"></div>
+
+					<ul class="list-unstyled footer-menu lh-35">
+						<li><a href="{% url 'index' %}">Home </a></li>
+						<!--<li><a href="{% url 'login' %}">Admin</a></li>-->
+						<li><a href="{% url 'aboutus' %}">About Us</a></li>
+						<li><a href="{% url 'patreg' %}">Patient Signup</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+	
+
+			<div class="col-lg-4 col-md-6 col-sm-6">
+				<div class="widget widget-contact mb-5 mb-lg-0">
+					<h4 class="text-capitalize mb-3">Get in Touch</h4>
+					<div class="divider mb-4"></div>
+
+					<div class="footer-contact-block mb-4">
+						<div class="icon d-flex align-items-center">
+							<i class="icofont-email mr-3"></i>
+							<span class="h6 mb-0">Support Available for 24/7</span>
+						</div>
+						<h4 class="mt-2"><a href="mailto:{{page.email}}">{{page.email}}</a></h4>
+					</div>
+
+					<div class="footer-contact-block">
+						<div class="icon d-flex align-items-center">
+							<i class="icofont-support mr-3"></i>
+							<span class="h6 mb-0">Mon to Fri : 08:30 - 18:00</span>
+						</div>
+						<h4 class="mt-2"><a href="tel:{{page.mobilenumber}}">{{page.mobilenumber}}</a></h4>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="footer-btm py-4 mt-5">
+			<div class="row align-items-center justify-content-between">
+				<div class="col-lg-6">
+					<div class="copyright">
+						&copy; Hospital Management System <span class="text-color"></span> 
+					</div>
+				</div>
+			
+			</div>
+
+			<div class="row">
+				<div class="col-lg-4">
+					<a class="backtop js-scroll-trigger" href="#top">
+						<i class="icofont-long-arrow-up"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>

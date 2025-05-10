@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="content container-fluid">
+
+    <div class="page-header">
+    <div class="row align-items-center">
+    <div class="col">
+    <h3 class="page-title">Appointments</h3>
+    <ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'userhome' %}">Dashboard</a></li>
+    <li class="breadcrumb-item active">View Appointment</li>
+    </ul>
+    </div>
+    
+    </div>
+    </div>
+    
+    <div class="row">
+    <div class="col-sm-12">
+    <div class="card card-table">
+    <div class="card-body">
+        {% if messages %}
+        {% for message in messages %}
+         {% if message.tags == 'error' %}
+       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{message}}
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+         </button>
+          </div>
+       {% endif %}
+        {% endfor %}
+       {% endif %}
+           {% if messages %}
+        {% for message in messages %}
+         {% if message.tags == 'success' %}
+       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{message}}
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+         </button>
+          </div>
+       {% endif %}
+        {% endfor %}
+       {% endif %}
+       {% if vah %}
+    <div class="table-responsive">
+    <table class="table table-hover table-center mb-0 datatable">
+    <thead>
+    <tr>
+   
+    <th>Appointment Number</th>
+    <th>Doctor Name</th>
+    <th>Consultancy fee</th>
+    <th>Date of Appointment</th>
+    <th>Time of Appointment</th>
+    <th>Creation Date</th>
+    <th>Status</th>
+    <th class="text-right">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for appointment  in vah %}
+    <tr>
+
+    <td>{{appointment.appointmentnumber}}</td>
+    <td>{{appointment.doctor_id.admin.first_name}} {{i.doctor_id.admin.last_name}}</td>
+    <td>{{appointment.doctor_id.fee}}</td>
+    <td>{{appointment.date_of_appointment}}</td>
+    <td>{{appointment.time_of_appointment}}</td>
+    <td>{{appointment.created_at}}</td>
+    {% if appointment.status == '0' %}
+                                                <td>Not Updated Yet</td>
+                                                {% else %}
+                                                <td>{{ appointment.status}}</td>{% endif %}
+    <td class="text-right">
+    <div class="actions">
+        <td>
+            {% if appointment.status != 'Approved' and appointment.status != 'Canceled' %}
+                <form action="{% url 'cancel_appointment' appointment.id %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Cancel</button>
+                </form>
+                
+            {% else %}
+                <span class="text-muted">Cannot cancel</span>
+            {% endif %}
+        </td>
+  
+    </div>
+    </td>
+    </tr> {% endfor %}
+   
+    </tbody>
+    </table>
+    {% else %}
+    <p>No appointment history available.</p>
+{% endif %}
+    
+    
+<!-- Pagination controls -->
+<div class="pagination" style="padding-top: 20px;padding-bottom: 20px;text-align: center;">
+    <span class="step-links">
+        {% if view_appointment.has_previous %}
+            <a href="?page=1">&laquo; First</a>
+            <a href="?page={{ view_appointment.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ view_appointment.number }} of {{ view_appointment.paginator.num_pages }}.
+        </span>
+
+        {% if view_appointment.has_next %}
+            <a href="?page={{ view_appointment.next_page_number }}">Next</a>
+            <a href="?page={{ view_appointment.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+{% endblock %}
