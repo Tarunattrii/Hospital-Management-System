@@ -72,10 +72,6 @@ hms/
 └── README.md
 ```
 
-## 📸 Screenshots
-
-_Add screenshots of your app interface here (optional)_
-
 ## 📄 License
 
 This project is licensed under the MIT License.
@@ -83,3 +79,8 @@ This project is licensed under the MIT License.
 ---
 
 **Developed by:** 
+Tarun Attri
+Saiyam Jain
+Harshit Pathak
+Sachin Yadav
+
